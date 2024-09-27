@@ -4,6 +4,7 @@ import { Form, Input, Button, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import tag from "../assets/NewAssets/Login/tag.png";
 import just from "../assets/NewAssets/Login/just.png";
+import useBreakpoint from "../hooks/useBreakpoint";
 
 const SignupPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -26,19 +27,18 @@ const SignupPage: React.FC = () => {
     }
     return Promise.resolve();
   };
-
+  const screens = useBreakpoint();
   return (
     <div style={{   
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
-      gap: "24px",
+      gap:screens.xs ? "6px" : "24px",
       borderRadius: "17px",
-      padding: "24px",
-   
+      padding: screens.xs ? "6px" : "24px",
       position: "absolute",
-      top: "50%",
+      top: screens.xs ? "45%" : "40%",
       left: "50%",
       transform: "translate(-50%, -50%)",
     }}>
@@ -50,29 +50,29 @@ const SignupPage: React.FC = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          gap: "16px",
+          gap: screens.xs ? "8px" : "16px",
         }}
       >
         <img
           src={tag}
           alt="Login Tag"
-          style={{ width: "328px", height: "42px" }}
+          style={{  width: screens.xs ? "140px" : "328px",  }}
         />
         <img
           src={just}
           alt="Login Tag"
-          style={{ width: "174px", height: "18px" }}
+          style={{  width: screens.xs ? "80px" : "164px", }}
         />
       </div >
 
       
       <div style={{ 
           display: "flex",
-          width: "364px",
-          padding: "32px",
+          width:screens.xs ? "260px" : "364px",
+          padding: screens.xs ? "10px" : "32px",
           flexDirection: "column",
           alignItems: "center",
-          gap: "12px",
+          gap:screens.xs ? "6px" : "12px",
           borderRadius: "17px",
           background: "#009051",
         }}>
@@ -133,7 +133,7 @@ const SignupPage: React.FC = () => {
 
 
           <div style={{
-           marginTop:'48px'
+           marginTop:screens.xs ? "10px" : '40px'
           }}>
             <Form.Item>
               <Button  htmlType="submit" loading={loading} block>
@@ -153,7 +153,7 @@ const SignupPage: React.FC = () => {
       </div>
 
 
-      <div style={{ marginTop: '8px', color: "white" }}>
+      <div style={{ marginTop: '16px', color: "white" }}>
         Already have an account? <span style={{ marginRight: '8px' }}></span><Link to="/login"><text style={{color: "white"}}>Login</text></Link>
       </div>
 

@@ -42,6 +42,8 @@ export const theme: ThemeConfig = {
     Input: {
       colorBgContainer: 'rgba(255, 255, 255, 0.13)',
       colorText:'white',
+      
+      
     },
     Modal: {
       contentBg: "#252527",

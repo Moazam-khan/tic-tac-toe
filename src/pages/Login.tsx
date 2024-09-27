@@ -4,10 +4,12 @@ import { Form, Input, Button, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import tag from "../assets/NewAssets/Login/tag.png";
 import just from "../assets/NewAssets/Login/just.png";
+import useBreakpoint from "../hooks/useBreakpoint";
 
 // Defining the Login component as a functional component
 const Login: React.FC = () => {
   // Defining state variable 'loading' with initial value 'false' and its setter 'setLoading'
+ 
   const [loading, setLoading] = useState(false);
   // Getting the navigate function from useNavigate hook to programmatically navigate
   const navigate = useNavigate();
@@ -26,7 +28,13 @@ const Login: React.FC = () => {
       navigate("/game");
     }, 1000);
   };
-
+ 
+  const screens = useBreakpoint();
+  console.log("xs screen", screens.xs);
+  console.log("sm screen", screens.sm);
+  console.log("md screen", screens.md);
+  console.log("lg screen", screens.lg);
+  console.log("xl screen", screens.xl);
   // Returning the JSX to render the login form
   return (
     // Container div for the login form with styling
@@ -36,12 +44,12 @@ const Login: React.FC = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        gap: "50px",
+        gap:screens.xs ? "12px" : "50px",
 
-        padding: "24px",
+        padding:screens.xs ? "6px " : "24px",
         borderRadius: "4px",
         position: "absolute",
-        top: "50%",
+        top:screens.xs ? "50%" : "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
       }}
@@ -52,18 +60,18 @@ const Login: React.FC = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          gap: "16px",
+          gap:screens.xs ? "12px" : "16px",
         }}
       >
         <img
           src={tag}
           alt="Login Tag"
-          style={{ width: "328px", height: "42px" }}
+          style={{ width:screens.xs ?"150px" :"328px", height: "42px" }}
         />
         <img
           src={just}
           alt="Login Tag"
-          style={{ width: "174px", height: "18px" }}
+          style={{ width:screens.xs ?"120px" : "174px", height: "25px" }}
         />
       </div>
 
@@ -71,7 +79,7 @@ const Login: React.FC = () => {
         onFinish={onFinish}
         style={{
           display: "flex",
-          width: "364px",
+          width:screens.xs?"260px" : "364px",
           padding: "32px",
           flexDirection: "column",
           alignItems: "center",
@@ -103,15 +111,16 @@ const Login: React.FC = () => {
           }}
         >
           <Form.Item name="username" style={{ alignSelf: "stretch" }}>
-            <Input color="green"
+            <Input 
               style={{
                 padding: "8px 16px",
                 width: "100%",
                 borderRadius: "7px",
                 border: "1px solid rgba(255, 255, 255, 0.50)",
-        
+              
               }}
               placeholder="Username"
+              
             />
           </Form.Item>
 
@@ -155,10 +164,10 @@ const Login: React.FC = () => {
                 flex: "1 0 0",
                 borderRadius: "7px",
                 background: "#FFF",
-                width: "300px",
+                width:screens.xs ? "200px" : "300px",
              
               }}
-              type="primary"
+          
               htmlType="submit"
               loading={loading}
               block
@@ -177,7 +186,7 @@ const Login: React.FC = () => {
         </div>
       </Form>
 
-      <div style={{ marginTop: "-34px", color: "white" }}>
+      <div style={{ marginTop: "5px", color: "white" }}>
         Don’t have an account? <span style={{ marginRight: '8px' }}></span><Link to="/signup"><text style={{color:'white'}}>Sign Up</text></Link>
       </div>
     </div>

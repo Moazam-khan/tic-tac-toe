@@ -39,8 +39,8 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      // @ts-ignore
-      plugins: [rollupNodePolyFill()],
+      external: ['@splinetool/runtime'],
+     
     },
   },
   define: {

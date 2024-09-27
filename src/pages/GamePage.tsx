@@ -1,3 +1,12 @@
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import light from "../assets/NewAssets/Game/light.png";
 import { message } from "antd";
@@ -7,7 +16,11 @@ import X from "../assets/NewAssets/Game/X.png";
 import O from "../assets/NewAssets/Game/O.png";
 import bart from "../assets/NewAssets/Game/bart.png";
 import tom from "../assets/NewAssets/Game/tom.png";
+import useBreakpoint from "@/hooks/useBreakpoint";
+
+
 const GamePage: React.FC = () => {
+  
   const [board, setBoard] = useState<Array<string | null>>(Array(9).fill(null));
   const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
   const [timer, setTimer] = useState(10);
@@ -93,14 +106,16 @@ const GamePage: React.FC = () => {
     setTimer(10);
     setWinner(null);
   };
-
+  const screens = useBreakpoint();
+  console.log(screens.xs)
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center",padding:screens.xs ? "8px ":"none" }}>
       <div>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px', alignSelf: 'stretch' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px', alignSelf: 'stretch',  }}>
           <div style={{ display: 'flex', padding: '3px 9px', justifyContent: 'center', alignItems: 'center', borderRadius: '8px', fontFamily: 'Poppins', fontSize: '18px', fontWeight: '600', lineHeight: 'normal', textAlign: 'center', border: isPlayerOneTurn ? '1px solid white' : 'none', background: 'rgba(23, 142, 85, 0.44)', color: '#FFF' }}>
             P1
           </div>
+         
 
           <div style={{ display: 'flex', padding: '3px 9px', justifyContent: 'center', alignItems: 'center', borderRadius: '8px', fontFamily: 'Poppins', fontSize: '18px', fontWeight: '600', lineHeight: 'normal', textAlign: 'center', width: '58px', background: 'rgba(23, 142, 85, 0.80)', color: '#FFF', border: 'none' }}>
             {`${winningStreak.playerOne}-${winningStreak.playerTwo}`}
@@ -116,10 +131,12 @@ const GamePage: React.FC = () => {
         </div>
       </div>
 
-      <img src={up} style={{ marginBottom: "20px", marginTop: "20px" }} />
+      <img src={up} style={{ marginBottom: screens.xs ? "6px" : "20px", width: screens.xs ?   "65%":"100%" ,marginTop: screens.xs ?   "6px":"none"}} />
 
-      <div style={{ display: "flex", flexWrap: "wrap", padding: "16px", flexDirection: "row", alignItems: "flex-start", gap: "12px", borderRadius: "14px", border: "3px dashed #FFF", background: "rgba(255, 255, 255, 0.01)", backdropFilter: "blur(10.5px)", justifyContent: "center", maxWidth: "610px", position: "relative" }}>
-        <img src={left} style={{ position: "absolute", top: "40%", left: "-120px", transform: "translateY(-50%)" }} />
+      <div style={{ display: "flex", flexWrap: "wrap", padding: "16px", flexDirection: "row", alignItems: "flex-start", gap: "12px", borderRadius: "14px", border: "3px dashed #FFF", background: "rgba(255, 255, 255, 0.01)", backdropFilter: "blur(10.5px)", justifyContent: "center", maxWidth: screens.xs ? "375px" : "610px", position: "relative" }}>
+        {!screens.xs && (
+ <img src={left} style={{ position: "absolute", top: "40%", left: "-120px", transform: "translateY(-50%)" }} />
+        )}
 
         {board.map((value, index) => (
           <div
@@ -127,22 +144,23 @@ const GamePage: React.FC = () => {
             onClick={() => handleClick(index)}
             style={{
               display: "flex",
-              width: "180px",
-              height: "180px",
+              width:screens.xs ? "80px" : "180px",
+              height:screens.xs ? "80px" : "180px",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              gap: "10px",
+              gap:screens.xs ? "5px": "10px",
               borderRadius: "10px",
               background: index % 2 === 0 ? "rgba(23, 142, 85, 0.80)" : "rgba(23, 142, 85, 0.50)",
+            
             }}
           >
             {value === "X" ? (
-              <img src={X} alt="X" style={{ width: "104px", height: "114px" }} />
+              <img src={X} alt="X" style={{ width:screens.xs ? "40px" : "104px", height:screens.xs ? "40px" : "114px" }} />
             ) : value === "O" ? (
-              <img src={O} alt="O" style={{ width: "104px", height: "110px" }} />
+              <img src={O} alt="O" style={{ width:screens.xs ? "40px" : "104px", height:screens.xs ? "40px" : "110px" }} />
             ) : (
-              <img src={light} alt="placeholder" style={{ width: "180px", height: "180px" }} />
+              <img src={light} alt="placeholder" style={{ width:screens.xs ? "80px" : "180px", height:screens.xs ? "100px" : "180px" }} />
             )}
           </div>
         ))}
@@ -159,147 +177,154 @@ const GamePage: React.FC = () => {
           </p>
         )}
       </div>
-      
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "10px",
-          position: "absolute",
-          top: "70%",
-          left: "30px",
-          transform: "translateY(-50%)",
-          backdropFilter: "blur(6.5px)",
-        }}
-      >
-        <p
-          style={{
-            color: "#FFF",
-            fontFamily: "Poppins",
-            fontSize: "16px",
-            fontStyle: "normal",
-            fontWeight: 500,
-            lineHeight: "normal",
-          }}
-        >
-          Player 1
-        </p>
-        <div
-          style={{
-            borderRadius: "26px",
-           border: isPlayerOneTurn ? '1px solid white' : 'none',
-            background: "rgba(4, 128, 86, 0.54)",
-            display: "flex",
-            width: "170px",
-            padding: "30px 20px",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "16px",
-          }}
-        >
-          <img src={bart} alt="Player 1" />
-          <div style={{ textAlign: "center" }}>
+    {
+    <>
+       {!screens.xs && (
+       <>
+       <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "10px",
+              position: "absolute",
+              top: "50%",
+              left: "15px",
+              transform: "translateY(-50%)",
+              backdropFilter: "blur(6.5px)",
+            }}
+          >
             <p
               style={{
                 color: "#FFF",
                 fontFamily: "Poppins",
                 fontSize: "16px",
                 fontStyle: "normal",
-                fontWeight: 400,
+                fontWeight: 500,
                 lineHeight: "normal",
               }}
             >
               Player 1
             </p>
-            <p
+            <div
               style={{
-                color: "#FFF",
-                textAlign: "center",
-                fontFamily: "Poppins",
-                fontSize: "18px",
-                fontStyle: "normal",
-                fontWeight: 600,
-                lineHeight: "normal",
+                borderRadius: "26px",
+                border: isPlayerOneTurn ? '1px solid white' : 'none',
+                background: "rgba(4, 128, 86, 0.54)",
+                display: "flex",
+                width: "170px",
+                padding: "30px 20px",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "16px",
               }}
             >
-              Bart Ermens
-            </p>
+              <img src={bart} alt="Player 1" />
+              <div style={{ textAlign: "center" }}>
+                <p
+                  style={{
+                    color: "#FFF",
+                    fontFamily: "Poppins",
+                    fontSize: "16px",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Player 1
+                </p>
+                <p
+                  style={{
+                    color: "#FFF",
+                    textAlign: "center",
+                    fontFamily: "Poppins",
+                    fontSize: "18px",
+                    fontStyle: "normal",
+                    fontWeight: 600,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Bart Ermens
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "10px",
-          position: "absolute",
-          top: "70%",
-          right: "30px",
-          transform: "translateY(-50%)",
-          backdropFilter: "blur(6.5px)",
-        }}
-      >
-        <p
-          style={{
-            color: "#FFF",
-            fontFamily: "Poppins",
-            fontSize: "16px",
-            fontStyle: "normal",
-            fontWeight: 500,
-            lineHeight: "normal",
-          }}
-        >
-          Player2
-        </p>
-        <div
-          style={{
-            borderRadius: "26px",
-            background: "rgba(4, 128, 86, 0.54)",
-            display: "flex",
-            width: "170px",
-            padding: "30px 20px",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            border: !isPlayerOneTurn ? '1px solid white' : 'none',
-            gap: "16px",
-          }}
-        >
-          <img src={tom} alt="Player 2" />
-          <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "10px",
+              position: "absolute",
+              top: "50%",
+              right: "15px",
+              transform: "translateY(-50%)",
+              backdropFilter: "blur(6.5px)",
+            }}
+          >
             <p
               style={{
                 color: "#FFF",
                 fontFamily: "Poppins",
                 fontSize: "16px",
                 fontStyle: "normal",
-                fontWeight: 400,
+                fontWeight: 500,
                 lineHeight: "normal",
               }}
             >
               Player 2
             </p>
-            <p
+            <div
               style={{
-                color: "#FFF",
-                fontFamily: "Poppins",
-                fontSize: "18px",
-                fontStyle: "normal",
-                fontWeight: 600,
-                lineHeight: "normal",
+                borderRadius: "26px",
+                background: "rgba(4, 128, 86, 0.54)",
+                display: "flex",
+                width: "170px",
+                padding: "30px 20px",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                border: !isPlayerOneTurn ? '1px solid white' : 'none',
+                gap: "16px",
               }}
             >
-              Tom Rath
-            </p>
+              <img src={tom} alt="Player 2" />
+              <div style={{ textAlign: "center" }}>
+                <p
+                  style={{
+                    color: "#FFF",
+                    fontFamily: "Poppins",
+                    fontSize: "16px",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Player 2
+                </p>
+                <p
+                  style={{
+                    color: "#FFF",
+                    fontFamily: "Poppins",
+                    fontSize: "18px",
+                    fontStyle: "normal",
+                    fontWeight: 600,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Tom Rath
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          </>
+          )}
+          </>
+          }
 
-      <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
+      <div style={{ display: "flex", gap: "20px", marginTop:screens.xs ? "0px" : "30px" }}>
         <button
           onClick={resetGame}
           style={{
